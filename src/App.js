@@ -4,12 +4,14 @@ import Search from './pages/search/Search'
 import Create from './pages/create/Create'
 import Recipe from './pages/recipe/Recipe'
 import Home from './pages/home/Home'
+import Navbar from './components/Navbar'
 
 function App() {
   return (
-    <div className="App">
+    <div className="App">     
 
       <Router>
+        <Navbar />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/recipes/:resId" component={Recipe} />
