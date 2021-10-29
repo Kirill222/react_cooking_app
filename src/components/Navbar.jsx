@@ -5,7 +5,7 @@ const Navbar = () => {
     return (
         <div className="navbar">
             <nav>
-                <Link exact to="/" className="brand">
+                <Link exact="true" to="/" className="brand">
                     <h1>Cooking app</h1>
                 </Link>
                 <Link to="/create">Create recipe</Link>
