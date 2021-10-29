@@ -17,7 +17,7 @@ const themeReducer = (state, action) => {
 export function ThemeProvider({children}) {
 
     const [state, dispatch] = useReducer(themeReducer, {
-        color: 'blue',
+        color: '#58249c',
     })
     //analog of dispatching action creator in Redux
     const changeColor = (color) => {

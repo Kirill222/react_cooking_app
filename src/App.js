@@ -5,6 +5,7 @@ import Create from './pages/create/Create'
 import Recipe from './pages/recipe/Recipe'
 import Home from './pages/home/Home'
 import Navbar from './components/Navbar'
+import ThemeSelector from './components/ThemeSelector'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
 
       <Router>
         <Navbar />
+        <ThemeSelector />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/recipes/:resId" component={Recipe} />
