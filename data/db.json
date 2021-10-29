@@ -99,6 +99,15 @@
         "aaaa"
       ],
       "id": "k5NETVZ"
+    },
+    {
+      "title": "cook",
+      "method": "pan",
+      "cookingTime": "2 minutes",
+      "ingredients": [
+        "pizza"
+      ],
+      "id": "TlHRuuK"
     }
   ]
 }
