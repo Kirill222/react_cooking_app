@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useFetch } from '../../hooks/useFetch'
 import { useHistory } from 'react-router-dom'
 import './Create.css'
@@ -22,8 +22,13 @@ const Create = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         postData({title, method, cookingTime: cookingTime + ' minutes', ingredients})
-        //history.push('/')
+        //history.push('/') here it doe not work as postData is async request
     }
+    useEffect(() => {
+        if (data) {
+            history.push('/') //REDIRECT WORKS HERE
+        }
+    }, [data])    
 
     const handleAdd = (e) => {
         e.preventDefault()
