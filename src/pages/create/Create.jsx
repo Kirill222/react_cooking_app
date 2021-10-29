@@ -28,7 +28,7 @@ const Create = () => {
         if (data) {
             history.push('/') //REDIRECT WORKS HERE
         }
-    }, [data])    
+    }, [data, history])    
 
     const handleAdd = (e) => {
         e.preventDefault()
@@ -96,6 +96,8 @@ const Create = () => {
 
                 <button className="btn">Submit</button>
             </form>
+
+            {error && <div>{error}</div>}
 
         </div>
     )
