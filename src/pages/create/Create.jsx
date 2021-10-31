@@ -1,34 +1,35 @@
 import { useState, useRef, useEffect } from 'react'
-import { useFetch } from '../../hooks/useFetch'
 import { useHistory } from 'react-router-dom'
 import './Create.css'
+
+import {projectFirestore} from '../../firebase/config'
+
 
 const Create = () => {
 
     const [title, setTitle] = useState('')
     const [method, setMethod] = useState('')
     const [cookingTime, setCookingTime] = useState('')
-
     const [newIngredient, setNewIngredient] = useState('')
     const [ingredients, setIngredients] = useState([])
-
     const ingredientInput = useRef(null)
-
     const history = useHistory()
 
-    const {postData, data, error} = useFetch('http://localhost:3000/recipes', 'POST')
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        postData({title, method, cookingTime: cookingTime + ' minutes', ingredients})
-        //history.push('/') here it doe not work as postData is async request
-    }
-    useEffect(() => {
-        if (data) {
-            history.push('/') //REDIRECT WORKS HERE
+        const doc = {title, method, cookingTime: cookingTime + ' minutes', ingredients}
+
+        try {
+            await projectFirestore.collection('recipes').add(doc) //we do not use 'then' method here, as it is a POST request. Instead we use try/catch
+            history.push('/')
+        } 
+        catch (err) {
+            console.log(err)
         }
-    }, [data, history])    
+
+    }   
 
     const handleAdd = (e) => {
         e.preventDefault()
@@ -97,7 +98,7 @@ const Create = () => {
                 <button className="btn">Submit</button>
             </form>
 
-            {error && <div>{error}</div>}
+            {/* {error && <div>{error}</div>} */}
 
         </div>
     )
