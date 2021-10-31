@@ -35,6 +35,12 @@ const Recipe = () => {
 
     }, [resId])
 
+    const handleClick = () => {
+        projectFirestore.collection('recipes').doc(resId).update({
+            title: 'Title after update'
+        })
+    }
+
     return (
         <div className={`recipe ${mode}`}>
             {error && <p className="error">{error}</p>}
@@ -46,7 +52,8 @@ const Recipe = () => {
                     <ul>
                         {data.ingredients.map(ing => <li key={ing}>{ing}</li>)}
                     </ul>  
-                    <p className="method">{data.method}</p>                  
+                    <p className="method">{data.method}</p>  
+                    <button onClick={handleClick}>Update me with dummy data</button>             
                 </>
             )}
         </div>
