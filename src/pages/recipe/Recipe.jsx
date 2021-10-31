@@ -1,29 +1,52 @@
 import './Recipe.css'
-import { useFetch } from '../../hooks/useFetch'
 import { useParams } from 'react-router-dom'
 import {useTheme} from '../../hooks/useTheme'
+import { useState, useEffect } from 'react'
+import {projectFirestore} from '../../firebase/config'
+
 
 const Recipe = () => {
 
     const {mode} = useTheme()
-
     const {resId} = useParams()
 
-    const {data: recipe, isPending, error} = useFetch(`http://localhost:3000/recipes/${resId}`)
+    const [data, setData] = useState(null)
+    const [isPending, setIsPending] = useState(false)
+    const [error, setError] = useState(false)
 
+    useEffect(() => {
+
+        setIsPending(true)
+
+        projectFirestore.collection('recipes').doc(resId).get().then(doc => {
+            if (doc.exists) {
+                setData(doc.data())
+                setIsPending(false)
+            }
+            else {
+                setError('Could not find that recipe')
+                setIsPending(false)
+            }
+        })
+        .catch(err => {
+            setError(err.message)
+        })
+
+
+    }, [resId])
 
     return (
         <div className={`recipe ${mode}`}>
             {error && <p className="error">{error}</p>}
             {isPending && <p className="loading">Loading...</p>}
-            {recipe && (
+            {data && (
                 <>
-                    <h2 className="page-title">{recipe.title}</h2>
-                    <p>Takes {recipe.cookingTime} to cook.</p>
+                    <h2 className="page-title">{data.title}</h2>
+                    <p>Takes {data.cookingTime} to cook.</p>
                     <ul>
-                        {recipe.ingredients.map(ing => <li key={ing}>{ing}</li>)}
+                        {data.ingredients.map(ing => <li key={ing}>{ing}</li>)}
                     </ul>  
-                    <p className="method">{recipe.method}</p>                  
+                    <p className="method">{data.method}</p>                  
                 </>
             )}
         </div>
