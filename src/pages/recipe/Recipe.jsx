@@ -18,7 +18,7 @@ const Recipe = () => {
 
         setIsPending(true)
 
-        projectFirestore.collection('recipes').doc(resId).get().then(doc => {
+        const unsubscribe = projectFirestore.collection('recipes').doc(resId).onSnapshot(doc => {
             if (doc.exists) {
                 setData(doc.data())
                 setIsPending(false)
@@ -28,16 +28,14 @@ const Recipe = () => {
                 setIsPending(false)
             }
         })
-        .catch(err => {
-            setError(err.message)
-        })
 
+        return () => unsubscribe()
 
     }, [resId])
 
     const handleClick = () => {
         projectFirestore.collection('recipes').doc(resId).update({
-            title: 'Title after update'
+            title: 'Title after update 999'
         })
     }
 
