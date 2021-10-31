@@ -14,7 +14,7 @@ const Home = () => {
         
         setIsPending(true) //here we start fethching data
 
-        projectFirestore.collection('recipes').get().then((snapshot) => {
+        const unsubscribe = projectFirestore.collection('recipes').onSnapshot(snapshot => {
             console.log(snapshot)
             if (snapshot.empty) {
                 setError('No recipes to load')
@@ -28,11 +28,12 @@ const Home = () => {
                  setData(results)
                  setIsPending(false)
             }
-        })
-        .catch(err => {
+        }, err => {
             setError(err.message)
             setIsPending(false)
         })
+
+        return () => unsubscribe()          
         
     }, [])
 
